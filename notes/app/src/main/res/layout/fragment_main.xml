@@ -46,16 +46,20 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/editText2"
+            android:id="@+id/date_EditText"
             android:textColor="#ffffff"
-            android:editable="false" />
+            android:editable="false"
+            android:singleLine="true"
+            android:contextClickable="false" />
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/editText"
+            android:id="@+id/time_EditText"
             android:layout_gravity="center_horizontal"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"
+            android:singleLine="true"
+            android:longClickable="false" />
 
         <LinearLayout
             android:orientation="horizontal"

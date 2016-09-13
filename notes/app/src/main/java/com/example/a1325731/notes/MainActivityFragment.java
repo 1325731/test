@@ -6,8 +6,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.Toast;
 
 /**
@@ -24,6 +27,9 @@ public class MainActivityFragment extends Fragment {
     private CircleView purple;
     private CircleView pink;
     private LinearLayout back;
+    private Switch reminder;
+    private EditText date;
+    private EditText time;
 
     /*
     Date d = new Date();
@@ -56,15 +62,18 @@ public class MainActivityFragment extends Fragment {
         purple = (CircleView) root.findViewById(R.id.color7_CircleView);
         pink = (CircleView) root.findViewById(R.id.color8_CircleView);
         back = (LinearLayout) root.findViewById(R.id.back_LinearLayout);
+        reminder = (Switch) root.findViewById(R.id.reminder_Switch);
+        date = (EditText) root.findViewById(R.id.date_EditText);
+        time = (EditText) root.findViewById(R.id.time_EditText);
 
-        red.setColor(255,204,204);
-        orange.setColor(255,229,204);
-        yellow.setColor(255,255,204);
-        green.setColor(204,255,204);
-        cyan.setColor(204,255,255);
-        blue.setColor(204,204,255);
-        purple.setColor(229,204,255);
-        pink.setColor(255,204,229);
+        red.setColor(255,150,150);
+        orange.setColor(255,200,150);
+        yellow.setColor(255,255,150);
+        green.setColor(150,255,150);
+        cyan.setColor(150,255,255);
+        blue.setColor(150,150,255);
+        purple.setColor(200,150,255);
+        pink.setColor(255,150,200);
 
         CircleViewHandler colorClickHandler = new CircleViewHandler();
 
@@ -77,14 +86,29 @@ public class MainActivityFragment extends Fragment {
         purple.setOnClickListener(colorClickHandler);
         pink.setOnClickListener(colorClickHandler);
 
+        // Reminder switch
+        reminder.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    date.setVisibility(Switch.VISIBLE);
+                    time.setVisibility(Switch.VISIBLE);
+                }
+                else {
+                    date.setVisibility(Switch.GONE);
+                    time.setVisibility(Switch.GONE);
+                }
+            }
+        });
+
         return root;
     }
+
     private class CircleViewHandler implements CircleView.OnClickListener {
 
         @Override
         public void onClick(View v) {
-            Toast toast = Toast.makeText(v.getContext(), "Hey",Toast.LENGTH_SHORT);
-            toast.show();
+            // This handler is CircleView specific, so we can cast the View to a Circle View
             CircleView color = (CircleView) v;
          back.setBackgroundColor(color.getColor());
         }
