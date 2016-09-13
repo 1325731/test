@@ -12,20 +12,17 @@
         android:layout_height="wrap_content"
         android:id="@+id/title_EditText"
         android:textSize="25dp"
-        android:singleLine="false"
+        android:singleLine="true"
         android:hint="Title"
         android:textIsSelectable="false" />
 
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:inputType="textMultiLine"
         android:ems="10"
         android:id="@+id/body_EditText"
-        android:focusable="false"
-        android:textSize="15dp"
-        android:singleLine="false"
-        android:hint="Body"
+        android:hint="body"
         android:layout_weight="1"
         android:gravity="top" />
 
@@ -50,7 +47,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/editText2"
-            android:layout_gravity="center_horizontal"
             android:textColor="#ffffff"
             android:editable="false" />
 
