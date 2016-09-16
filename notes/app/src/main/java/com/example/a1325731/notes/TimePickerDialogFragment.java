@@ -3,6 +3,7 @@ package com.example.a1325731.notes;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.text.format.DateFormat;
 
@@ -67,9 +68,10 @@ public class TimePickerDialogFragment extends DialogFragment {
         int hour;
         int minute;
 
-        if(savedInstanceState != null && savedInstanceState.containsKey(EXTRA_HOUR)) {
-            hour = savedInstanceState.getInt(EXTRA_HOUR);
-            minute = savedInstanceState.getInt(EXTRA_MINUTE);
+        Bundle args = getArguments();
+        if(args.containsKey(EXTRA_HOUR)) {
+            hour = args.getInt(EXTRA_HOUR);
+            minute = args.getInt(EXTRA_MINUTE);
         }
         else {
             // Use the current time as the default values for the picker

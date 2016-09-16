@@ -1,6 +1,8 @@
 package com.example.a1325731.notes;
 
+import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,7 +13,12 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Switch;
+import android.widget.TimePicker;
 import android.widget.Toast;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -31,15 +38,9 @@ public class MainActivityFragment extends Fragment {
     private EditText date;
     private EditText time;
 
-    /*
-    Date d = new Date();
-    Calender cal = calender.getInstance();
-    cal.setTime(d);
-    int year = cal.get(Calender.YEAR);
-    year++;
-    cal.set(Calender.YEAR,year);
-    d = cal.getTime();
-     */
+
+    private int startHour = 8;
+    private int startMin = 0;
 
     public MainActivityFragment() {
     }
@@ -66,14 +67,19 @@ public class MainActivityFragment extends Fragment {
         date = (EditText) root.findViewById(R.id.date_EditText);
         time = (EditText) root.findViewById(R.id.time_EditText);
 
-        red.setColor(255,150,150);
-        orange.setColor(255,200,150);
-        yellow.setColor(255,255,150);
-        green.setColor(150,255,150);
-        cyan.setColor(150,255,255);
-        blue.setColor(150,150,255);
-        purple.setColor(200,150,255);
-        pink.setColor(255,150,200);
+        Calendar c = Calendar.getInstance();
+
+        dateSet(c.get(Calendar.YEAR),c.get(Calendar.MONTH),c.get(Calendar.DAY_OF_MONTH));
+        timeSet(startHour,startMin);
+
+        red.setColor(getResources().getColor(R.color.base0A));      // FF9696
+        orange.setColor(getResources().getColor(R.color.base0B));   // FFC896
+        yellow.setColor(getResources().getColor(R.color.base0C));   // FFFF96
+        green.setColor(getResources().getColor(R.color.base0D));    // 96FF96
+        cyan.setColor(getResources().getColor(R.color.base0E));     // 96FFFF
+        blue.setColor(getResources().getColor(R.color.base0F));     // 9696FF
+        purple.setColor(getResources().getColor(R.color.base0G));   // C896FF
+        pink.setColor(getResources().getColor(R.color.base0H));     // FF96C8
 
         CircleViewHandler colorClickHandler = new CircleViewHandler();
 
@@ -85,6 +91,39 @@ public class MainActivityFragment extends Fragment {
         blue.setOnClickListener(colorClickHandler);
         purple.setOnClickListener(colorClickHandler);
         pink.setOnClickListener(colorClickHandler);
+
+        date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Date initial = new Date();   // TODO: use previous value or "tomorrow at 8:00"
+                // create and show the DatePicker with starting date
+                DialogFragment dialogFragment = DatePickerDialogFragment.createDatePicker(
+                        initial,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                                dateSet(year, month, dayOfMonth);
+                            }
+                        });
+                dialogFragment.show(getFragmentManager(), "timePicker");
+            }
+        });
+
+        time.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Date initial = new Date();   // TODO: use previous value or "tomorrow at 8:00"
+                // create and show the TimePicker with starting time
+                DialogFragment dialogFragment = TimePickerDialogFragment.create(
+                        initial,
+                        new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                               timeSet(hourOfDay, minute);
+                            } });
+                dialogFragment.show(getFragmentManager(), "timePicker");
+            }
+        });
 
         // Reminder switch
         reminder.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
@@ -112,5 +151,28 @@ public class MainActivityFragment extends Fragment {
             CircleView color = (CircleView) v;
          back.setBackgroundColor(color.getColor());
         }
+    }
+
+    public void dateSet(int year, int month, int dayOfMonth) {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, year);
+        cal.set(Calendar.MONTH, month);
+        cal.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        Date d = cal.getTime();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM d, yyyy");
+        String dateStr = dateFormat.format(d);
+
+        date.setText(dateStr);
+    }
+
+    public void timeSet(int hourOfDay, int minute) {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, hourOfDay);
+        cal.set(Calendar.MINUTE, minute);
+        Date d = cal.getTime();
+        SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a");
+        String timeStr = timeFormat.format(d);
+
+        time.setText(timeStr);
     }
 }
