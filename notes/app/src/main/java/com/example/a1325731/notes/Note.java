@@ -12,6 +12,13 @@ public class Note {
     private boolean hasReminder;
     private Date reminder;
 
+    public Note() {
+        this.title = "";
+        this.body = "";
+        this.category = 0;
+        this.hasReminder = false;
+        this.reminder = new Date();
+    }
 
     public Note(String title, String body, int category, boolean hasReminder, Date reminder) {
         this.title = title;
@@ -59,6 +66,20 @@ public class Note {
 
     public void setReminder(Date reminder) {
         this.reminder = reminder;
+    }
+
+    @Override
+    public String toString() {
+        String noteString;
+
+        if (isHasReminder()) {
+           noteString = "T:" + getTitle() + ", B:" + getBody() + ", C:" +  getCategory() + ", R:" +  getReminder();
+        }
+        else {
+            noteString = "T:" + getTitle() + ", B:" + getBody() + ", C:" +  getCategory();
+        }
+
+        return noteString;
     }
 
 }

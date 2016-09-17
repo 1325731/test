@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/title_EditText"
-        android:textSize="25dp"
+        android:textSize="20dp"
         android:singleLine="true"
         android:hint="Title"
         android:textIsSelectable="false" />
@@ -69,8 +69,8 @@
             android:gravity="center">
 
             <com.example.a1325731.notes.CircleView
-                android:layout_width="27dp"
-                android:layout_height="27dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:id="@+id/color1_CircleView"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="12dp"
@@ -78,8 +78,8 @@
                 android:layout_marginBottom="12dp" />
 
             <com.example.a1325731.notes.CircleView
-                android:layout_width="27dp"
-                android:layout_height="27dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:id="@+id/color2_CircleView"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="12dp"
@@ -87,8 +87,8 @@
                 android:layout_marginBottom="12dp" />
 
             <com.example.a1325731.notes.CircleView
-                android:layout_width="27dp"
-                android:layout_height="27dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:id="@+id/color3_CircleView"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="12dp"
@@ -96,8 +96,8 @@
                 android:layout_marginBottom="12dp" />
 
             <com.example.a1325731.notes.CircleView
-                android:layout_width="27dp"
-                android:layout_height="27dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:id="@+id/color4_CircleView"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="12dp"
@@ -105,8 +105,8 @@
                 android:layout_marginBottom="12dp" />
 
             <com.example.a1325731.notes.CircleView
-                android:layout_width="27dp"
-                android:layout_height="27dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:id="@+id/color5_CircleView"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="12dp"
@@ -114,8 +114,8 @@
                 android:layout_marginBottom="12dp" />
 
             <com.example.a1325731.notes.CircleView
-                android:layout_width="27dp"
-                android:layout_height="27dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:id="@+id/color6_CircleView"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="12dp"
@@ -123,8 +123,8 @@
                 android:layout_marginBottom="12dp" />
 
             <com.example.a1325731.notes.CircleView
-                android:layout_width="27dp"
-                android:layout_height="27dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:id="@+id/color7_CircleView"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="12dp"
@@ -132,8 +132,8 @@
                 android:layout_marginBottom="12dp" />
 
             <com.example.a1325731.notes.CircleView
-                android:layout_width="27dp"
-                android:layout_height="27dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:id="@+id/color8_CircleView"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="12dp"
