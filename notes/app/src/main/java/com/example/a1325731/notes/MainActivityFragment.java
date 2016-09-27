@@ -16,6 +16,7 @@ import android.widget.Switch;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -25,6 +26,7 @@ import java.util.Date;
  */
 public class MainActivityFragment extends Fragment {
 
+    // Initializing
     private CircleView red;
     private CircleView orange;
     private CircleView yellow;
@@ -35,12 +37,18 @@ public class MainActivityFragment extends Fragment {
     private CircleView pink;
     private LinearLayout back;
     private Switch reminder;
+    private EditText title;
+    private EditText body;
     private EditText date;
     private EditText time;
+    private Date dateTime;
+    private Calendar c;
+    private int reminderColor;
 
-
+    // Date related variables
     private int startHour = 8;
-    private int startMin = 0;
+    private int startMin  = 0;
+    private int extraDay  = 1;
 
     public MainActivityFragment() {
     }
@@ -50,28 +58,33 @@ public class MainActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_main, container, false);
 
-        //DatePicker date = new DatePicker();
-        //TimePickerDialog time = new TimePickerDialog();
+        // Grabbing the colors from the fragment
+        red     = (CircleView) root.findViewById(R.id.color1_CircleView);
+        orange  = (CircleView) root.findViewById(R.id.color2_CircleView);
+        yellow  = (CircleView) root.findViewById(R.id.color3_CircleView);
+        green   = (CircleView) root.findViewById(R.id.color4_CircleView);
+        cyan    = (CircleView) root.findViewById(R.id.color5_CircleView);
+        blue    = (CircleView) root.findViewById(R.id.color6_CircleView);
+        purple  = (CircleView) root.findViewById(R.id.color7_CircleView);
+        pink    = (CircleView) root.findViewById(R.id.color8_CircleView);
 
-        // Colors and setting them
-        red = (CircleView) root.findViewById(R.id.color1_CircleView);
-        orange = (CircleView) root.findViewById(R.id.color2_CircleView);
-        yellow = (CircleView) root.findViewById(R.id.color3_CircleView);
-        green = (CircleView) root.findViewById(R.id.color4_CircleView);
-        cyan = (CircleView) root.findViewById(R.id.color5_CircleView);
-        blue = (CircleView) root.findViewById(R.id.color6_CircleView);
-        purple = (CircleView) root.findViewById(R.id.color7_CircleView);
-        pink = (CircleView) root.findViewById(R.id.color8_CircleView);
-        back = (LinearLayout) root.findViewById(R.id.back_LinearLayout);
-        reminder = (Switch) root.findViewById(R.id.reminder_Switch);
+        back        = (LinearLayout) root.findViewById(R.id.back_LinearLayout);
+        reminder    = (Switch) root.findViewById(R.id.reminder_Switch);
+        title       = (EditText) root.findViewById(R.id.title_EditText);
+        body        = (EditText) root.findViewById(R.id.body_EditText);
+
+        // Initializing the time and date
         date = (EditText) root.findViewById(R.id.date_EditText);
         time = (EditText) root.findViewById(R.id.time_EditText);
 
-        Calendar c = Calendar.getInstance();
+        // These variables are useful for passing a complete date to MainActivity
+        c = Calendar.getInstance();
+        dateTime = c.getTime();
 
-        dateSet(c.get(Calendar.YEAR),c.get(Calendar.MONTH),c.get(Calendar.DAY_OF_MONTH));
+        dateSet(c.get(Calendar.YEAR),c.get(Calendar.MONTH),c.get(Calendar.DAY_OF_MONTH) + extraDay);
         timeSet(startHour,startMin);
 
+        // Setting the colors
         red.setColor(getResources().getColor(R.color.base0A));      // FF9696
         orange.setColor(getResources().getColor(R.color.base0B));   // FFC896
         yellow.setColor(getResources().getColor(R.color.base0C));   // FFFF96
@@ -81,6 +94,7 @@ public class MainActivityFragment extends Fragment {
         purple.setColor(getResources().getColor(R.color.base0G));   // C896FF
         pink.setColor(getResources().getColor(R.color.base0H));     // FF96C8
 
+        // Having the colors switch the background onClick handler
         CircleViewHandler colorClickHandler = new CircleViewHandler();
 
         red.setOnClickListener(colorClickHandler);
@@ -92,6 +106,7 @@ public class MainActivityFragment extends Fragment {
         purple.setOnClickListener(colorClickHandler);
         pink.setOnClickListener(colorClickHandler);
 
+        // OnClickListener for Date
         date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,6 +124,7 @@ public class MainActivityFragment extends Fragment {
             }
         });
 
+        // OnClickListener for Time
         time.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,7 +141,7 @@ public class MainActivityFragment extends Fragment {
             }
         });
 
-        // Reminder switch
+        // Reminder Switch
         reminder.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -149,30 +165,60 @@ public class MainActivityFragment extends Fragment {
         public void onClick(View v) {
             // This handler is CircleView specific, so we can cast the View to a Circle View
             CircleView color = (CircleView) v;
-         back.setBackgroundColor(color.getColor());
+
+            reminderColor = color.getColor();
+            back.setBackgroundColor(color.getColor());
         }
     }
 
-    public void dateSet(int year, int month, int dayOfMonth) {
+    // dateSet function used for initialization and setting it
+    public Date dateSet(int year, int month, int dayOfMonth) {
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, year);
         cal.set(Calendar.MONTH, month);
         cal.set(Calendar.DAY_OF_MONTH, dayOfMonth);
         Date d = cal.getTime();
+
+        c.set(Calendar.YEAR, year);
+        c.set(Calendar.MONTH, month);
+        c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        dateTime = c.getTime();
         SimpleDateFormat dateFormat = new SimpleDateFormat("MMM d, yyyy");
         String dateStr = dateFormat.format(d);
 
         date.setText(dateStr);
+        return d;
     }
 
-    public void timeSet(int hourOfDay, int minute) {
+    // timeSet function used for initialization and setting it
+    public Date timeSet(int hourOfDay, int minute) {
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.HOUR_OF_DAY, hourOfDay);
         cal.set(Calendar.MINUTE, minute);
         Date d = cal.getTime();
+
+        c.set(Calendar.HOUR_OF_DAY, hourOfDay);
+        c.set(Calendar.MINUTE, minute);
+        dateTime = c.getTime();
         SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a");
         String timeStr = timeFormat.format(d);
 
         time.setText(timeStr);
+        return d;
+    }
+
+    // returns a Note object to MainActivity (used there)
+    public Note getData() {
+
+        Note note = new Note();
+
+        note.setTitle(title.toString());
+        note.setBody(body.toString());
+        note.setCategory(reminderColor);
+        note.setHasReminder(reminder.isChecked());
+        note.setReminder(dateTime);
+
+        return note;
     }
 }
+
