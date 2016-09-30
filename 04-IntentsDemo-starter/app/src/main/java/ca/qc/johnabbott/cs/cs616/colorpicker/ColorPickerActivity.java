@@ -30,7 +30,6 @@ public class ColorPickerActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
         //Version 1:
         Intent intent = getIntent(); // gets the intent that launched the activity
         //int color = intent.getExtras().getInt("INITIAL_COLOR");

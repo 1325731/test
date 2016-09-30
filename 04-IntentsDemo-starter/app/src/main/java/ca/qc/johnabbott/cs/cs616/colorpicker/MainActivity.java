@@ -13,6 +13,8 @@ import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
 
+    private MainActivityFragment mainActivityFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +28,17 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+            }
+        });
+
+
+        mainActivityFragment = (MainActivityFragment) getSupportFragmentManager().findFragmentById(R.id.main_Fragment);
+        mainActivityFragment.SetOnCircleChosen (new MainActivityFragment.OnCircleChosen() {
+            @Override
+           public void onCircleChosen(int num, int currentColor) {
+                Intent intent = new Intent(MainActivity.this, ColorPickerActivity.class);
+                intent.putExtra(ColorPickerActivity.param.initial_color, currentColor);
+                startActivityForResult(intent, num);
             }
         });
     }
@@ -51,11 +64,11 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, ColorPickerActivity.class);
             //intent.putExtra("INITIAL_COLOR", Color.GREEN); // TODO: swag
             // Version 2:
-            intent.putExtra(ColorPickerActivity.param.initial_color, Color.GREEN); // TODO: swag
+            intent.putExtra(ColorPickerActivity.param.initial_color, Color.RED); // TODO: swag
             //startActivity(intent);
 
             // Version 3:
-            startActivityForResult(intent,1); //second parameter is request code (do not use -1)
+            startActivityForResult(intent,6); //second parameter is request code (do not use -1)
 
             return true;
         }
@@ -69,12 +82,12 @@ public class MainActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             int color = data.getIntExtra(ColorPickerActivity.result.chosen_color, Color.TRANSPARENT);
             MainActivityFragment fragment = (MainActivityFragment) getSupportFragmentManager().findFragmentById(R.id.main_Fragment);
-            fragment.setCircleColor(R.id.circle1, color);
-            fragment.setCircleColor(R.id.circle2, color);
-            fragment.setCircleColor(R.id.circle3, color);
-            fragment.setCircleColor(R.id.circle4, color);
-            fragment.setCircleColor(R.id.circle5, color);
-            fragment.setCircleColor(R.id.circle6, color);
+
+            if (requestCode == 6)
+                for (int i=0; i<6; i++)
+                    fragment.setCircleColor(i,color);
+            else
+                fragment.setCircleColor(requestCode, color);
         }
 
     }
